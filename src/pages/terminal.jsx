@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Segment } from 'semantic-ui-react'
+import { useSearchParams, useNavigate } from 'react-router-dom'
+import { Segment, Menu, Button, Icon } from 'semantic-ui-react'
 import { Terminal } from "xterm";
 import "xterm/css/xterm.css";
 import { FitAddon } from 'xterm-addon-fit';
 import "../styles/terminal.css"
+import { toast } from 'react-toastify';
 
 function ab2str(buf) {
     return String.fromCharCode.apply(null, new Uint8Array(buf));
@@ -72,7 +73,7 @@ class TerminalUI {
      * Utility function to print new line on terminal.
      */
     prompt() {
-        this.terminal.write(`\r\n$ `);
+        this.terminal.write(`\n$ `);
     }
 
     /**
@@ -104,13 +105,14 @@ class TerminalUI {
 
 function getTerminalWSEndpoint() {
     let ws_protocol = 'wss'
-    if(window.location.protocol === "http:") ws_protocol = 'ws';
+    if (window.location.protocol === "http:") ws_protocol = 'ws';
     let ws_host = window.location.host
     return ws_protocol + ":" + ws_host;
 }
 
 export default function PageTerminal() {
     const [searchParams, setSearchParams] = useSearchParams();
+    let navigate = useNavigate()
     let host = searchParams.get('host');
     let port = searchParams.get('port');
     let user = searchParams.get('user') || "root";
@@ -119,7 +121,10 @@ export default function PageTerminal() {
     useEffect(() => {
         const token = window.localStorage.getItem("Server-Agent-Token")
         if (!token) {
-            alert("No token detected!")
+            toast("You are not authorized!")
+            setTimeout(() => {
+                navigate("/")
+            }, 2000)
         }
 
         const container = document.getElementById("terminal");
@@ -162,7 +167,16 @@ export default function PageTerminal() {
 
     return (
         <main className="page-terminal">
-            <Segment style={{width: "80%", margin: "10px auto"}}>
+            <Menu attached='top'>
+                <Menu.Item>
+                    <Button icon="left arrow" onClick={e => {
+                        e.preventDefault();
+                        term.clear();
+                        navigate("/");
+                    }}>Go Back</Button>
+                </Menu.Item>
+            </Menu>
+            <Segment style={{ width: "80%", margin: "10px auto" }}>
                 <div id="terminal"></div>
             </Segment>
         </main>
