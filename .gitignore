@@ -27,3 +27,4 @@ dist-ssr
 server-agent
 conf.yml
 pages/*
+pages.tar.gz
