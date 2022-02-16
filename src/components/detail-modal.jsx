@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
+import { Modal, Button, Header, Grid, Icon } from 'semantic-ui-react'
 
 export default function ComDetailModal(props) {
     const data = props.data;
     const dockerM = props.container;
-    if (!data) return (
-        <div>No data found!</div>
-    )
-
     const [open, setOpen] = useState(false)
 
+    if (!data) return (
+        <Modal
+            closeIcon
+            open={open}
+            trigger={<Button content='Detail' icon='file alternate outline' labelPosition='left' />}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+        ><Modal.Content>No Data Found !</Modal.Content></Modal>
+    )
     return (
         <Modal
             closeIcon
@@ -17,17 +23,23 @@ export default function ComDetailModal(props) {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
         >
-            <Header>Host: {data.Host}</Header>
+            <Header>Host: {props.host}</Header>
             <Modal.Content>
                 <Grid divided='vertically'>
                     <Grid.Row columns={2}>
                         <Grid.Column>
                             <h4>Server Detail Infomation: </h4>
-                            <p>CPU: {data.CPU.ModelName} x{data.CPU.Cores}</p>
-                            <p>Exposed IP Address: {data.OuterIPAddr}</p>
-                            <p>OS: {data.System.Os}@{data.System.OsVersion}</p>
-                            <p>Arch: {data.System.Architecture}</p>
-                            <p>Virtualization: {data.System.Virtualization}</p>
+                            {
+                                (data.CPU && data.System) ? (
+                                    <>
+                                        <p>CPU: {data.CPU.ModelName} x{data.CPU.Cores}</p>
+                                        <p>Exposed IP Address: {data.OuterIPAddr}</p>
+                                        <p>OS: {data.System.Os}@{data.System.OsVersion}</p>
+                                        <p>Arch: {data.System.Architecture}</p>
+                                        <p>Virtualization: {data.System.Virtualization}</p>
+                                    </>
+                                ) : ""
+                            }
                         </Grid.Column>
                         {dockerM && dockerM.length > 0 ? (
                             <Grid.Column>

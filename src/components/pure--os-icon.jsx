@@ -26,6 +26,6 @@ export default function PureOperatingOs(props) {
     }
 
     return (
-        <i><img src={osIconPathMap[props.os.toLowerCase()] || DefaultLogo} alt={props.os} /></i>
+        <i><img src={props.os && typeof props.os === "string" ? osIconPathMap[props.os.toLowerCase()] : DefaultLogo} alt={props.os} width="14" height="14" /></i>
     )
 }

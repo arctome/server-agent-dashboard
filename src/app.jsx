@@ -8,7 +8,7 @@ import './styles/app.css';
 // const HomePage = React.lazy(() => import("./pages/home-page"))
 // const NotFoundPage = React.lazy(() => import("./pages/not-found-page"))
 import HomePage from './pages/home-page'
-import TerminalPage from './pages/terminal/[hashid]'
+import TerminalPage from './pages/terminal'
 import NotFoundPage from './pages/not-found-page'
 import LoginPage from './pages/login'
 
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/terminal/:hashid" element={<TerminalPage />} />
+        <Route path="/terminal" element={<TerminalPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/*all" element={<NotFoundPage />} />

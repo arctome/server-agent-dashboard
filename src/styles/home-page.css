@@ -1,0 +1,17 @@
+.server-list {
+    max-width: 1260px;
+    width: 96%;
+    margin: 10px auto;
+    overflow: hidden;
+}
+.server-list .list-wrapper {
+    margin-top: -18px;
+    margin-left: -18px;
+    width: 100%;
+}
+.server-list .server-card {
+    display: inline-block;
+    margin-left: 20px;
+    margin-top: 20px !important;
+    width: 300px;
+}
