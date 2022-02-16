@@ -46,7 +46,7 @@ export default function ComDetailModal(props) {
                                 <h4>Docker Status</h4>
                                 {dockerM.map(c => {
                                     return (
-                                        <p className="flex-justify-between" key={c.ID}>
+                                        <p style={{display: "flex", alignItems: "center", justifyContent: "space-between"}} key={c.ID}>
                                             <span>{c.Name[0].replace("/", "")}</span>
                                             <span style={{
                                                 color: c.State === 'running' ? "green" : "orange"
