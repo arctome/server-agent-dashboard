@@ -37,8 +37,8 @@ jobs:
         tag_name: ${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
-    - run: yarn install
-    - run: yarn build
+    - run: npm ci
+    - run: npm run build
     - name: upload linux artifact
       uses: actions/upload-release-asset@v1
       env:
