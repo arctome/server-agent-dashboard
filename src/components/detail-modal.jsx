@@ -33,6 +33,7 @@ export default function ComDetailModal(props) {
                                 (data.CPU && data.System) ? (
                                     <>
                                         <p>CPU: {data.CPU.ModelName} x{data.CPU.Cores}</p>
+                                        <p>Host: {props.host}</p>
                                         <p>Exposed IP Address: {data.OuterIPAddr}</p>
                                         <p>OS: {data.System.Os}@{data.System.OsVersion}</p>
                                         <p>Arch: {data.System.Architecture}</p>

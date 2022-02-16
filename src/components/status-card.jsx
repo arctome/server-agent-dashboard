@@ -136,7 +136,7 @@ export default function ComStatusCard(props) {
             {
                 info ?
                     (
-                        <Card.Header className="justify-between-label card-section-padding"><span><Flag name={server.Location} /> {server.Host}</span> <span><PureOnlineLabel code={connectionFlag} /><PureOperatingOs os={info.System ? info.System.Os : null} /></span> </Card.Header>
+                        <Card.Header className="justify-between-label card-section-padding"><span><Flag name={server.Location} /> {server.Name}</span> <span><PureOnlineLabel code={connectionFlag} /><PureOperatingOs os={info.System ? info.System.Os : null} /></span> </Card.Header>
                     ) : ""
             }
             {
