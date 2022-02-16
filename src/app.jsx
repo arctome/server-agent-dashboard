@@ -19,7 +19,7 @@ function App() {
         <Route path="/terminal" element={<TerminalPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/*all" element={<NotFoundPage />} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <ToastContainer />
     </div>
