@@ -19,7 +19,8 @@ export default function PageHome() {
             method: "GET",
             headers: {
                 'Server-Agent-Token': trustToken
-            }
+            },
+            redirect: "follow"
         }).then(res => {
             if (res.ok && res.status === 200) return res.json()
         })
@@ -75,6 +76,7 @@ export default function PageHome() {
             console.log("connection lost.");
             disconnectWSConnections();
         }
+        return server;
     }
     function disconnectWSConnections() {
         if (
@@ -88,10 +90,9 @@ export default function PageHome() {
 
     useEffect(async () => {
         let data = await loadServerList().catch(e => { console.log(e) });
-        setServers(data)
-        servers.forEach(server => {
-            establishWSConnection(server);
-        })
+        let _servers = data.map(server => establishWSConnection(server))
+        console.log(_servers)
+        setServers(_servers)
 
         // Clean function
         return function () {

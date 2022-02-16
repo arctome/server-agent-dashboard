@@ -75,7 +75,7 @@ export default function ComStatusCard(props) {
             }
             <Card.Content extra>
                 <div className="flex-justify-between">
-                    <ComDetailModal data={server.info} container={server.state ? server.state.Container : []} />
+                    <ComDetailModal data={server.info} container={(server.state && server.state.Container) ? server.state.Container : []} />
                 </div>
             </Card.Content>
         </Card>

@@ -26,3 +26,4 @@ dist-ssr
 # Server-Agent: Ignore conf.yml & go executable file
 server-agent
 conf.yml
+pages/*
