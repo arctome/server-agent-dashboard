@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Progress, Icon, Card, Flag, Button } from 'semantic-ui-react'
+import { Progress, Icon, Card, Flag, Button, Placeholder } from 'semantic-ui-react'
 import ComDetailModal from './detail-modal'
 import PureOperatingOs from './pure--os-icon'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import '../styles/status-card.css'
 import { useNavigate } from 'react-router-dom'
+import PureOnlineLabel from './pure--online-label'
 
 dayjs.extend(relativeTime)
 
 function LoadingState() {
     return (
-        <div></div>
+        <div>
+            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='dashboard' />CPU Load 1/5/15:</span></p></Progress>
+            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='microchip' />Memory:</span></p></Progress>
+            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='disk' />Swap:</span></p></Progress>
+            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='disk' />Disk</span></p></Progress>
+        </div>
     )
 }
 function UpdatingState(props) {
@@ -26,7 +32,7 @@ function UpdatingState(props) {
                 <p className="justify-between-label"><span><Icon name='dashboard' />CPU Load 1/5/15:</span> <span>{state.Load.CPU.load1}/{state.Load.CPU.load5}/{state.Load.CPU.load15}</span></p>
             </Progress>
             {/* Memory */}
-            <Progress percent={state.Percent.Mem}  progress={state.Percent.Mem > 20}
+            <Progress percent={state.Percent.Mem} progress={state.Percent.Mem > 20}
                 success={state.Percent.Mem < 50}
                 warning={state.Percent.Mem >= 50 && state.Percent.Mem < 80}
                 error={state.Percent.Mem >= 80}>
@@ -55,6 +61,7 @@ export default function ComStatusCard(props) {
     let timer = null;
     const [info, setInfo] = useState(server.info || {})
     const [state, setState] = useState(server.state || {})
+    const [connectionFlag, setConnFlag] = useState(0) // 0: not connected, 1: connection online, 2: connection lost
     let navigate = useNavigate();
 
     function getAgentUrl(server) {
@@ -68,6 +75,7 @@ export default function ComStatusCard(props) {
         let socket = new WebSocket(getAgentUrl(server) + getAgentPath(server, window.localStorage.getItem("Server-Agent-Token")));
         server.socket = socket;
         server.socket.onopen = function () {
+            setConnFlag(1)
             server.socket.send("info")
             setState({})
         }
@@ -106,6 +114,7 @@ export default function ComStatusCard(props) {
         }
         server.socket.onclose = function () {
             console.log("connection lost.");
+            setConnFlag(2)
         }
         return server;
     }
@@ -113,7 +122,7 @@ export default function ComStatusCard(props) {
     useEffect(() => {
         establishWSConnection(server)
 
-        return function() {
+        return function () {
             if (timer) clearInterval(timer);
             server.socket && server.socket.close && server.socket.close();
         }
@@ -126,9 +135,9 @@ export default function ComStatusCard(props) {
             </Card.Content>
             {
                 info ?
-                (
-                    <Card.Header className="justify-between-label card-section-padding"><span><Flag name={server.Location} /> {server.Host}</span> <PureOperatingOs os={info.System ? info.System.Os : null} /> </Card.Header>
-                ) : ""
+                    (
+                        <Card.Header className="justify-between-label card-section-padding"><span><Flag name={server.Location} /> {server.Host}</span> <span><PureOnlineLabel code={connectionFlag} /><PureOperatingOs os={info.System ? info.System.Os : null} /></span> </Card.Header>
+                    ) : ""
             }
             {
                 (state && state.Host && state.Container) ?
