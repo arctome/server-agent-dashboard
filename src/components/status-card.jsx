@@ -155,7 +155,7 @@ export default function ComStatusCard(props) {
                     <ComDetailModal host={server.Host} data={info} container={(state && state.Container) ? state.Container : []} />
                     <Button content='Connect...' icon='terminal' labelPosition='left' disabled={!server.EnableSSH} onClick={e => {
                         e.preventDefault();
-                        navigate(`/terminal?host=${server.Host}&port=${server.SSHPort}`)
+                        navigate(`/terminal?host=${server.Host}&port=${server.SSHPort}&user=${server.SSHUser || ""}`)
                     }} />
                 </div>
             </Card.Content>
