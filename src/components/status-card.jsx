@@ -13,10 +13,10 @@ dayjs.extend(relativeTime)
 function LoadingState() {
     return (
         <div>
-            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='dashboard' />CPU Load 1/5/15:</span></p></Progress>
-            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='microchip' />Memory:</span></p></Progress>
-            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='disk' />Swap:</span></p></Progress>
-            <Progress percent={0} ><p style={{textAlign: "left"}}><span><Icon name='disk' />Disk</span></p></Progress>
+            <Progress percent={0} ><p style={{ textAlign: "left" }}><span><Icon name='dashboard' />CPU Load 1/5/15:</span></p></Progress>
+            <Progress percent={0} ><p style={{ textAlign: "left" }}><span><Icon name='microchip' />Memory:</span></p></Progress>
+            <Progress percent={0} ><p style={{ textAlign: "left" }}><span><Icon name='disk' />Swap:</span></p></Progress>
+            <Progress percent={0} ><p style={{ textAlign: "left" }}><span><Icon name='disk' />Disk</span></p></Progress>
         </div>
     )
 }
@@ -136,7 +136,19 @@ export default function ComStatusCard(props) {
             {
                 info ?
                     (
-                        <Card.Header className="justify-between-label card-section-padding"><span><Flag name={server.Location} /> {server.Name}</span> <span><PureOnlineLabel code={connectionFlag} /><PureOperatingOs os={info.System ? info.System.Os : null} /></span> </Card.Header>
+                        <Card.Header className="justify-between-label card-section-padding">
+                            <span style={{
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap"
+                            }}><Flag name={server.Location} /> {server.Name}</span>
+                            <span style={{
+                                minWidth: 76
+                            }}>
+                                <PureOnlineLabel code={connectionFlag} />
+                                <PureOperatingOs os={info.System ? info.System.Os : null} />
+                            </span>
+                        </Card.Header>
                     ) : ""
             }
             {
@@ -150,7 +162,7 @@ export default function ComStatusCard(props) {
                         </Card.Meta>
                     ) : ""
             }
-            <Card.Content extra>
+            <Card.Content extra>``
                 <div className="justify-between-label">
                     <ComDetailModal host={server.Host} data={info} container={(state && state.Container) ? state.Container : []} />
                     <Button content='Connect...' icon='terminal' labelPosition='left' disabled={!server.EnableSSH} onClick={e => {
